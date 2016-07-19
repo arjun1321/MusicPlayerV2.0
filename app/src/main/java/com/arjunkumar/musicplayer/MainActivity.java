@@ -8,8 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity {
+import co.mobiwise.library.InteractivePlayerView;
+import co.mobiwise.library.OnActionClickedListener;
+
+public class MainActivity extends AppCompatActivity implements OnActionClickedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +22,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final InteractivePlayerView mInteractivePlayerView = (InteractivePlayerView) findViewById(R.id.interactivePlayerView);
+        mInteractivePlayerView.setMax(114);
+        mInteractivePlayerView.setProgress(50);
+        mInteractivePlayerView.setOnActionClickedListener(this);
+
+        final ImageView imageView = (ImageView) findViewById(R.id.control);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (!mInteractivePlayerView.isPlaying()) {
+                    mInteractivePlayerView.start();
+                    imageView.setBackgroundResource(R.drawable.ic_action_pause);
+                } else {
+                    mInteractivePlayerView.stop();
+                    imageView.setBackgroundResource(R.drawable.ic_action_play);
+                }
             }
         });
     }
@@ -48,5 +62,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActionClicked(int id) {
+
+        switch (id) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
     }
 }
